@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="author" content="MarkdownViewer++" />
+        <title>Final Report.md</title>
+        <style type="text/css">
+            
+/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+    page-break-inside: avoid; 
+}
+/* You can add your own css here */
+
+h1 {
+  color: #203D8D;
+}
+
+h2 {
+  color: #5F76B8;
+}
+
+h3, h4, h5 {
+  color: DarkSlateGray;
+  margin-top: 1.5em;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid DimGray;
+}
+
+th, td {
+  text-align: left;
+  padding: 1em;
+}
+
+/* Additional clean styling */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 4em;
+}
+
+code {
+  background-color: #f4f4f4;
+  padding: 0.3em 0.6em;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+pre {
+  background-color: #f4f4f4;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+blockquote {
+  border-left: 4px solid #ccc;
+  margin: 1.5em 0;
+  padding: 0.5em 1em;
+  color: #555;
+  background: #f9f9f9;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em 0;
+}
+
+a {
+  color: MidnightBlue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+  margin: 2em 0;
+} \n
+        </style>
+      </head>
+    <body>
+        <h1 id="final-report-energy-consumption-forecasting-anomaly-detection">📑 Final Report: Energy Consumption Forecasting &amp; Anomaly Detection</h1>
+<hr />
+<h2 id="executive-summary">📌 Executive Summary</h2>
+<p>This project analyzed historical household energy consumption to identify trends, detect seasonality, forecast future usage, and flag anomalous days. Multiple models were compared, and an interactive Tableau dashboard was created for visualization and business insights.</p>
+<hr />
+<h2 id="project-overview">📌 Project Overview</h2>
+<p>Understand consumption patterns, forecast future demand, detect anomalies, and assist operational planning through data-driven insights.</p>
+<hr />
+<h2 id="data-description">📌 Data Description</h2>
+<ul>
+<li><strong>Source:</strong> <a href="https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption">UCI Machine Learning Repository - Household Power Consumption Dataset</a></li>
+<li><strong>Granularity:</strong> Minute-level readings aggregated to daily</li>
+<li><strong>Key Variables:</strong>
+<ul>
+<li><code>Date</code></li>
+<li><code>Global_active_power</code> (kW, minute-averaged)</li>
+<li><code>voltage</code></li>
+<li><code>sub-metering values</code></li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="data-preprocessing">📌 Data Preprocessing</h2>
+<ul>
+<li>Handled missing values by dropping them as only 1.25% missing values present</li>
+<li>Generated time features for modeling</li>
+<li>Calculated Daily Demand (kW) considering peaks of <code>Global_active_power</code></li>
+<li>Aggregated data to daily totals to get Daily Electricity Consumption (kWh)</li>
+</ul>
+<hr />
+<h2 id="exploratory-data-analysis-eda">📌 Exploratory Data Analysis (EDA)</h2>
+<ul>
+<li><p>Original Time series plot to explore trends and seasonality</p>
+</li>
+<li><p>Observed strong monthly and moderate yearly seasonality</p>
+  <center>
+  	<img src="../img/Daily_Electricity_Consumption.png" alt="daily_consumption" width="1200" height="360">
+  </center>
+</li>
+<li><p>Spotted Higher consumption in winter (Jan–Feb and Nov-Dec) Lower in summer (Jun–Aug)</p>
+</li>
+<li><p>Noticed Monthly cyclic pattern</p>
+  <center>
+  	<img src="../img/Monthly_Electricity_Consumption.png" alt="mothly_consumption" width="1200" height="360">
+  </center>
+</li>
+<li><p>Residuals post SARIMAX-modeling showed no patterns, indicating good seasonality capture</p>
+  <center>
+  	<img src="../img/Sarimax_fitted_Resid_ACF.png" alt="Sarimax_fitted_Resid_ACF" width="1200" height="360">
+  </center>
+  <center>
+  	<img src="../img/Sarimax_fitted_Resid_PACF.png" alt="Sarimax_fitted_Resid_PACF" width="1200" height="360">
+  </center>
+</li>
+<li><p>Rolling Stats of the series</p>
+  <center>
+  	<img src="../img/Rolling_Stats.png" alt="Rolling_Stats" width="1200" height="360">
+  </center>
+</li>
+</ul>
+<hr />
+<h2 id="visualizations">📌 Visualizations</h2>
+<ul>
+<li><p>Daily demand &amp; consumption time series</p>
+  <center>
+  	<img src="../img/Daily_Electricity_Demand_vs_Power_Consumption.png" alt="Daily_Electricity_Demand_vs_Power_Consumption" width="1200" height="360">
+  </center>
+</li>
+<li><p>Decomposition Result: Level, Trend, Seasonality, Noise</p>
+  <center>
+  	<img src="../img/Seasonal_Decomposition_Result.png" alt="Seasonal_Decomposition_Result" width="1200" height="360">
+  </center>
+</li>
+<li><p>Anomaly Detection graph</p>
+  <center>
+  	<img src="../img/Anomalies.png" alt="Anomalies" width="1200" height="360">
+  </center>
+</li>
+<li><p>SARIMAX Forecast vs Actual Electricity Consumption</p>
+  <center>
+  	<img src="../img/SARIMAX_Forecast.png" alt="SARIMAX_Forecast" width="1200" height="360">
+  </center>
+</li>
+<li><p>Prophet Forecast vs Actual Electricity Consumption</p>
+  <center>
+  	<img src="../img/Prophet_Forecast.png" alt="Prophet_Forecast" width="1200" height="360">
+  </center>
+</li>
+</ul>
+<hr />
+<h2 id="time-series-forecasting">📌 Time Series Forecasting</h2>
+<h3 id="sarimax">SARIMAX</h3>
+<ul>
+<li>Best model: <code>(8, 0, 0)(1, 0, 1, 30)</code></li>
+<li>Forecasted daily consumption for one year</li>
+</ul>
+<h3 id="prophet">Prophet</h3>
+<ul>
+<li>Detected yearly and monthly seasonality automatically</li>
+<li>Faster and more accurate with minimal tuning</li>
+</ul>
+<hr />
+<h2 id="model-performance">📌 Model Performance</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">SARIMAX</th>
+<th style="text-align: left;">Prophet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>MAE</strong></td>
+<td style="text-align: left;">22.13</td>
+<td style="text-align: left;">8.41</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MAPE</strong></td>
+<td style="text-align: left;">61177632153903.7969</td>
+<td style="text-align: left;">1835243223510714.2500</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MSE</strong></td>
+<td style="text-align: left;">555.24</td>
+<td style="text-align: left;">107.37</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RMSE</strong></td>
+<td style="text-align: left;">23.56</td>
+<td style="text-align: left;">10.36</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Insight:</strong> Prophet consistently outperformed SARIMAX on all metrics.</p>
+<hr />
+<h2 id="anomaly-detection">📌 Anomaly Detection</h2>
+<ul>
+<li>Used Z-Score method on residuals</li>
+<li>|Z| &gt; 3 flagged as anomalies</li>
+<li>Example anomalous dates:
+<ul>
+<li><code>2006-12-23</code></li>
+<li><code>2006-12-26</code></li>
+<li><code>2007-02-03</code></li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="key-insights">📌 Key Insights</h2>
+<ul>
+<li><strong>Peak Usage Trends:</strong> Higher demand in winter, lower in summer</li>
+<li><strong>Seasonal Dependencies:</strong> Yearly and monthly seasonality confirmed</li>
+<li><strong>Abnormal Demand Days:</strong> Several flagged via anomaly detection</li>
+</ul>
+<hr />
+<h2 id="dashboard-interactive-visualization">📌 Dashboard &amp; Interactive Visualization</h2>
+<ul>
+<li>Developed in Tableau</li>
+<li>Time series plots, model metrics, anomaly visuals</li>
+<li>Interactive parameter for toggling SARIMAX/Prophet forecasts</li>
+</ul>
+<p><a href="https://public.tableau.com/views/PowerConsumptionDashboard_bk/DashboardDef?:language=en-US&amp;:sid=&amp;:redirect=auth&amp;:display_count=n&amp;:origin=viz_share_link">🔗 Tableau Dashboard Link</a></p>
+<hr />
+<h2 id="actionable-recommendations">📌 Actionable Recommendations</h2>
+<ul>
+<li>Adjust energy planning for high-demand months</li>
+<li>Investigate flagged anomalous days</li>
+<li>Adopt Prophet for operational forecasting</li>
+<li>Periodically review anomaly patterns for wastage/faults detection</li>
+</ul>
+<hr />
+<h2 id="conclusion">📌 Conclusion</h2>
+<p>Forecasting and anomaly detection improve operational efficiency, energy-saving strategies, and capacity planning. Prophet proved ideal for this problem.</p>
+<hr />
+<h2 id="limitations-future-scope">📌 Limitations &amp; Future Scope</h2>
+<ul>
+<li>Based on daily aggregates — future work could explore minute/hourly data</li>
+<li>External variables (weather, holidays) could improve models</li>
+<li>Try advanced anomaly detection (Isolation Forest, LSTM)</li>
+</ul>
+
+    </body>
+</html>
+            
